@@ -1,0 +1,11 @@
+span[ng-click], td[ng-click] {
+  color: #0095dd;
+  cursor: pointer;
+}
+span[ng-click]:hover, td[ng-click]:hover {
+  text-decoration: underline;
+}
+.table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td,
+.table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th{
+  vertical-align: middle !important;
+}

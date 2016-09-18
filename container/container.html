@@ -1,0 +1,77 @@
+<table class="table table-hover table-striped table-condensed">
+  <thead>
+    <tr>
+      <th>Id</th>
+      <th>Date dernier lancement</th>
+      <th>Nom</th>
+      <th>Mount</th>
+      <th>IP</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr ng-repeat-start="container in _ctrl.containers">
+      <td ng-click="_ctrl.log(container)">{{container.Id | limitTo:12 }}</td>
+      <td>{{container.State.StartedAt| date: 'dd/MM/yyyy à hh:mm' }}</td>
+      <td>{{container.Name | nomContainer}}</td>
+      <td>
+        <ul>
+          <li ng-repeat="mount in container.Mounts">
+            <span ng-click="_ctrl.ouvrirMount(mount)" title="{{mount.Source}}">
+              <span ng-if="mount.Source.length > 25">
+                ..{{mount.Source | limitTo : 25 : mount.Source.length - 25}}
+              </span>
+              <span ng-if="mount.Source.length <= 25">
+                {{ mount.Source }}
+              </span>
+            </span>
+             > {{mount.Destination}}</li>
+        </ul>
+      </td>
+      <td>
+        <span ng-show="container.State.Running">
+          <span ng-click="_ctrl.ouvrirInternet(container)">{{container.NetworkSettings.IPAddress}}:{{_ctrl.getPort(container)}}</span>
+        </span>
+      </td>
+      <td>
+        <!-- container stoppé -->
+        <span ng-show="!container.State.Running">
+          <button title="Lancer le container" class="btn btn-xs btn-success"
+            ng-click="_ctrl.start(container)">
+            <span class="glyphicon glyphicon-play"></span>
+          </button>
+          <button title="Supprimer le container" class="btn btn-xs btn-danger"
+            ng-click="_ctrl.supprimer(container)">
+            <span class="glyphicon glyphicon-trash"></span>
+          </button>
+        </span>
+        <!-- container lancé -->
+        <span ng-show="container.State.Running">
+          <!-- Stop -->
+          <button title="Stopper le container" class="btn btn-xs btn-danger"
+            ng-click="_ctrl.stop(container)">
+            <span class="glyphicon glyphicon-stop"></span>
+          </button>
+          <!-- Bash -->
+          <button title="Bash dans le container" class="btn btn-xs btn-default">
+            <span class="glyphicon glyphicon-console"></span>
+          </button>
+          <!-- Logs -->
+          <button title="Stdout du container" class="btn btn-xs btn-default"
+            data-toggle="collapse" data-target="#collapse-{{container.Id}}">
+            <span class="glyphicon glyphicon-file"></span>
+          </button>
+        </span>
+      </td>
+    </tr>
+    <tr ng-repeat-end id="collapse-{{container.Id}}" class="collapse">
+      <td colspan="100">
+        <div id="stdout-{{container.Id}}" class="stdout">
+          <span ng-repeat="string in _ctrl.stdout[container.Id] track by $index">
+            {{ string }}<br/>
+          </span>
+        </div>
+      </td>
+    </tr>
+  </tbody>
+</table>
