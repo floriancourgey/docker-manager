@@ -23,7 +23,8 @@ app.on('ready', function() {
   // Create the browser window.
   mainWindow = new BrowserWindow({
     width: 1280,
-    height: 800
+    height: 800,
+    icon: 'logo.png'
   });
 
   // mainWindow.openDevTools();
