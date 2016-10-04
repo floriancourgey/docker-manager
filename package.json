@@ -1,8 +1,7 @@
 {
-  "name": "your-app",
-  "version": "0.1.0",
+  "name": "docker-manager",
+  "version": "0.1",
   "main": "main.js",
   "dependencies": {
-    "Q": "0.0.1"
   }
 }

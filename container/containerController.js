@@ -79,7 +79,7 @@
      * `docker start -i`
      */
     self.start = function(container){
-      self.process[container.Id] = spawn("docker", ['start', '-i', container.Name]);
+      self.process[container.Id] = spawn("docker", ['start', '-i', container.Id], { detached: true });
       self.process[container.Id].stdout.on('data', function(data) {
         if(!(container.Id in self.stdout)){
           self.stdout[container.Id] = [];
