@@ -24,7 +24,7 @@ app.on('ready', function() {
   mainWindow = new BrowserWindow({
     width: 1280,
     height: 800,
-    icon: 'logo.png'
+    icon: './app/general/logo.png'
   });
 
   // mainWindow.openDevTools();
@@ -33,7 +33,7 @@ app.on('ready', function() {
   });
 
   // and load the index.html of the app.
-  mainWindow.loadURL(`file://${__dirname}/index.html`);
+  mainWindow.loadURL(`file://${__dirname}/app/index.html`);
 
   // Emitted when the window is closed.
   mainWindow.on('closed', function() {
