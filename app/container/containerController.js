@@ -79,7 +79,9 @@
      * `docker start -i`
      */
     self.start = function(container){
+      container.Chargement = "démarrage";
       self.process[container.Id] = spawn("docker", ['start', '-i', container.Id], { detached: true });
+      console.log("self.process[container.Id]", self.process[container.Id]);
       self.process[container.Id].stdout.on('data', function(data) {
         if(!(container.Id in self.stdout)){
           self.stdout[container.Id] = [];
@@ -89,6 +91,8 @@
         var $element = $("#stdout-"+container.Id)[0];
         // console.log($element);
         $element.scrollTop = $element.scrollHeight;
+        // fin chargement
+        container.Chargement = false;
       });
     };
 
@@ -97,9 +101,14 @@
      * `docker stop`
      */
     self.stop = function(container){
+      container.Chargement = "arrêt";
+      var process = self.process[container.Id];
       var commande = 'docker stop '+container.Name;
       exec(commande);
-      self.process[container.Id].kill();
+      process.kill();
+      process.on('exit', function () {
+        container.Chargement = false;
+      });
     }
 
     self.log = function(objet){
